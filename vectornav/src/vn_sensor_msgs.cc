@@ -98,28 +98,26 @@ static void convert_to_enu(
   const vectornav_msgs::msg::CommonGroup::SharedPtr msg_in, sensor_msgs::msg::Imu & msg_out,
   const bool & use_compensated_measurements = true)
 {
-  // NED to ENU conversion
-  // swap x and y and negate z
   if (use_compensated_measurements) {
-    msg_out.angular_velocity.x = msg_in->angularrate.y;
-    msg_out.angular_velocity.y = msg_in->angularrate.x;
-    msg_out.angular_velocity.z = -msg_in->angularrate.z;
+    msg_out.angular_velocity.x = msg_in->angularrate.x;
+    msg_out.angular_velocity.y = msg_in->angularrate.y;
+    msg_out.angular_velocity.z = msg_in->angularrate.z;
 
-    msg_out.linear_acceleration.x = msg_in->accel.y;
-    msg_out.linear_acceleration.y = msg_in->accel.x;
-    msg_out.linear_acceleration.z = -msg_in->accel.z;
+    msg_out.linear_acceleration.x = msg_in->accel.x;
+    msg_out.linear_acceleration.y = msg_in->accel.y;
+    msg_out.linear_acceleration.z = msg_in->accel.z;
   } else {
-    msg_out.angular_velocity.x = msg_in->imu_rate.y;
-    msg_out.angular_velocity.y = msg_in->imu_rate.x;
-    msg_out.angular_velocity.z = -msg_in->imu_rate.z;
+    msg_out.angular_velocity.x = msg_in->imu_rate.x;
+    msg_out.angular_velocity.y = msg_in->imu_rate.y;
+    msg_out.angular_velocity.z = msg_in->imu_rate.z;
 
-    msg_out.linear_acceleration.x = msg_in->imu_accel.y;
-    msg_out.linear_acceleration.y = msg_in->imu_accel.x;
-    msg_out.linear_acceleration.z = -msg_in->imu_accel.z;
+    msg_out.linear_acceleration.x = msg_in->imu_accel.x;
+    msg_out.linear_acceleration.y = msg_in->imu_accel.y;
+    msg_out.linear_acceleration.z = msg_in->imu_accel.z;
   }
 
   msg_out.orientation = msg_in->quaternion;
-  msg_out.orientation.z = -msg_in->quaternion.z;
+  // msg_out.orientation.z = -msg_in->quaternion.z;
 }
 
 /** Convert VN common group data to ROS2 standard message types
